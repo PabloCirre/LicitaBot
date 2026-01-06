@@ -145,8 +145,8 @@ def parse_feed(feed_url: str) -> List[FeedItem]:
 
 
 def build_subject_body(item: FeedItem, matched_keyword: Optional[str]) -> Tuple[str, str]:
-    # Personalidad "Licitabot bipbip" (texto, sin iconos/emojis)
-    subject = f"Licitabot bipbip | Nueva licitación web (PLACSP 643): {item.title}"
+    # Personalidad "LicitaRadar 2.0" (texto, sin iconos/emojis)
+    subject = f"LicitaRadar 2.0 | Nueva licitación web (PLACSP 643): {item.title}"
 
     lines: List[str] = []
     lines.append("Bipbip. Soy Licitabot.")
@@ -179,7 +179,7 @@ def build_subject_body(item: FeedItem, matched_keyword: Optional[str]) -> Tuple[
     lines.append("2) Si encaja, lo metemos en pipeline (análisis + respuesta).")
     lines.append("")
     lines.append("Fuente: Sindicación 643 – Perfiles del contratante (PLACSP).")
-    lines.append("Licitabot bipbip (modo radar horario).")
+    lines.append("LicitaRadar 2.0 (modo radar horario).")
 
     body = "\n".join(lines)
     return subject, body
@@ -199,7 +199,7 @@ def build_email_mime(
     msg["Subject"] = subject
 
     mk = matched_keyword or "n/a"
-    html = f"""<h2>Licitabot bipbip</h2>
+    html = f"""<h2>LicitaRadar 2.0</h2>
 <p>Bipbip. He detectado una licitación que parece de web/portal. Te la dejo ordenada.</p>
 
 <h3>Variables del flujo</h3>
@@ -250,7 +250,7 @@ def fetch_detail(
     r = session.get(
         url,
         timeout=timeout,
-        headers={"User-Agent": "LicitabotBipbip/1.0"},
+        headers={"User-Agent": "LicitaRadar/2.0"},
         allow_redirects=True,
     )
     status = r.status_code
@@ -268,7 +268,7 @@ def run_once(args: argparse.Namespace) -> None:
     conn = ensure_db(args.db)
 
     session = requests.Session()
-    session.headers.update({"User-Agent": "LicitabotBipbip/1.0"})
+    session.headers.update({"User-Agent": "LicitaRadar/2.0"})
 
     feed_items = parse_feed(args.feed_url)
     logging.info("Feed leído. Items: %d", len(feed_items))
